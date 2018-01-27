@@ -1,4 +1,5 @@
 import React from 'react';
+import './VideoList.css';
 import VideoListItem from './VideoListItem';
 
 const VideoList = props => {
@@ -13,8 +14,9 @@ const VideoList = props => {
 	});
 
 	return (
-		<div className="column is-4">
+		<div className="column is-2.5 video-list">
 			{videoItems}
+            {videoItems}
 		</div>
 	);
 };

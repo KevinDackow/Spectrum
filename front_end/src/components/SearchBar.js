@@ -13,12 +13,12 @@ export default class SearchBar extends Component {
 			<div className="block">
 				<div className="control search-bar">
 					<h1 className="title is-1">
-						<span className="fa fa-youtube-play" />&nbsp; Youtube InstaSearch
+						News Scale
 					</h1>
 					<input
 						className="input"
 						type="text"
-						placeholder="Search a YouTube video..."
+						placeholder="Search keywords for news articles..."
 						value={this.state.term}
 						onChange={event => this.onInputChange(event.target.value)}
 					/>
