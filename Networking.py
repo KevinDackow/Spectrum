@@ -3,8 +3,12 @@ import json
 import requests
 import datetime
 
-from google.cloud import firestore
-import google.cloud.exceptions
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+#from google.cloud import firestore
+#import google.cloud.exceptions
 
 # Gameplan
 # 1. Setup list of hostnames
@@ -16,7 +20,7 @@ import google.cloud.exceptions
 #   - if something's there that's no longer hosted, delete it
 
 ################################### API Definitions ############################################
-abcnewsAPI = "https://newsapi.org/v2/everything?sources=abc-news&apiKey=c98f2be3bafc441bb170235cba31516b"
+abcnewsAPI = "https://newsapi.org/v2/everything?sources=abc-news,cnn&apiKey=c98f2be3bafc441bb170235cba31516b"
 
 aljazeeraAPI = "https://newsapi.org/v2/everything?sources=al-jazeera-english&apiKey=c98f2be3bafc441bb170235cba31516"
 
@@ -93,53 +97,36 @@ viceAPI = "https://newsapi.org/v2/everything?sources=vice-news&apiKey=c98f2be3ba
 wiredAPI = "https://newsapi.org/v2/everything?sources=wired&apiKey=c98f2be3bafc441bb170235cba31516b"
 
 ############################ operational code ################################
-database = [abcnewsAPI, aljazeeraAPI, associatedpressAPI, bbcAPI, bloombergAPI, breitbartAPI, businessinsiderAPI, cbsAPI, cnnAPI, dailymailAPI, entertainmentweeklyAPI, espnAPI, financialpostAPI, financialtimesAPI, fortuneAPI, foxnewsAPI, hackernewsAPI, independentAPI, medicalnewstodayAPI, msnbcAPI, nationalgeographicAPI, nbcAPI, newyorkmagazineAPI, nytimesAPI, politicoAPI, reutersAPI, techcrunchAPI, techradarAPI, economistAPI, guardianAPI, huffpostAPI, telegraphAPI, vergeAPI, wsjAPI, washpostAPI, usatodayAPI, viceAPI, wiredAPI]
+hosts = [abcnewsAPI] #, aljazeeraAPI, associatedpressAPI, bbcAPI, bloombergAPI, breitbartAPI, businessinsiderAPI, cbsAPI, cnnAPI, dailymailAPI, entertainmentweeklyAPI, espnAPI, financialpostAPI, financialtimesAPI, fortuneAPI, foxnewsAPI, hackernewsAPI, independentAPI, medicalnewstodayAPI, msnbcAPI, nationalgeographicAPI, nbcAPI, newyorkmagazineAPI, nytimesAPI, politicoAPI, reutersAPI, techcrunchAPI, techradarAPI, economistAPI, guardianAPI, huffpostAPI, telegraphAPI, vergeAPI, wsjAPI, washpostAPI, usatodayAPI, viceAPI, wiredAPI]
+
+# initializes firebase
+cred = credentials.Certificate('hack-2018-5b7b359358e7.json')
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 # () -> URL (Str)
 # output = a website's JSON
-def json_getter(url):
-    response = requests.get(hostnames.get(url))
-    return response.json
+def get_json(api):
+    response = requests.get(api)
+    return response.json()
 
-# # List<String> -> ()
-def iterator(lst):
+def firebase_send(json_info): 
+    # if it doesn't work, don't do it!
+    if not json_info['status'] == 'ok':
+        print(json_info)
+        return
+    #get source -> name from JSON
+    source = json_info['articles'][0]["source"]["name"]
+    for article in json_info['articles']:
+        if db.collection(source).where('title', '==', article['title']).get():
+            doc_ref = db.collection("raw").add(article)
+        else: 
+            print("article already in db") 
 
+# Retrieves all JSON objects from list of news APIs and sends them to firebase
+# List<String> -> ()
+def main():
+    for api in hosts:
+        firebase_send(get_json(api))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+main()
