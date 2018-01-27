@@ -42,37 +42,39 @@ class App extends Component {
 		return (
 			<div className="big-container">
 				<SearchBar onSearchTermChange={videoSearch} />
-				<div className="columns">
-					<VideoList
-						videos={this.state.videos}
-						onVideoSelect={selectedVideo => {
-                            this.setState({ selectedVideo });
-                        }}
-					/>
-					<VideoList
-						videos={this.state.videos}
-						onVideoSelect={selectedVideo => {
-                            this.setState({ selectedVideo });
-                        }}
-					/>
-					<VideoList
-						videos={this.state.videos}
-						onVideoSelect={selectedVideo => {
-                            this.setState({ selectedVideo });
-                        }}
-					/>
-					<VideoList
-						videos={this.state.videos}
-						onVideoSelect={selectedVideo => {
-                            this.setState({ selectedVideo });
-                        }}
-					/>
-					<VideoList
-						videos={this.state.videos}
-						onVideoSelect={selectedVideo => {
-							this.setState({ selectedVideo });
-						}}
-					/>
+				<div className="control">
+					<div className="columns is-10">
+						<VideoList
+							videos={this.state.videos}
+							onVideoSelect={selectedVideo => {
+								this.setState({ selectedVideo });
+							}}
+						/>
+						<VideoList
+							videos={this.state.videos}
+							onVideoSelect={selectedVideo => {
+								this.setState({ selectedVideo });
+							}}
+						/>
+						<VideoList
+							videos={this.state.videos}
+							onVideoSelect={selectedVideo => {
+								this.setState({ selectedVideo });
+							}}
+						/>
+						<VideoList
+							videos={this.state.videos}
+							onVideoSelect={selectedVideo => {
+								this.setState({ selectedVideo });
+							}}
+						/>
+						<VideoList
+							videos={this.state.videos}
+							onVideoSelect={selectedVideo => {
+								this.setState({ selectedVideo });
+							}}
+						/>
+					</div>
 				</div>
 				<Footer/>
 			</div>

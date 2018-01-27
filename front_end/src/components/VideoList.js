@@ -13,7 +13,7 @@ const VideoList = props => {
 	});
 
 	return (
-		<div className="column is-4">
+		<div className="column is-2.5">
 			{videoItems}
 		</div>
 	);
