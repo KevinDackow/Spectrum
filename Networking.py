@@ -3,7 +3,7 @@ import json
 import requests
 from datetime import datetime, date, time, timedelta
 ################################### API Definitions ############################################
-hours_to_refresh = 4
+hours_to_refresh = 24
 
 first_groupAPIs = "https://newsapi.org/v2/everything?sources=abc-news,al-jazeera-english,associated-press,bbc-news,bloomberg,breitbart-news,business-insider,cbs-news,cnn,daily-mail,entertainment-weekly,espn,financial-post,financial-times,fortune,fox-news,hacker-news,independent,medical-news-today,msnbc&from={0}&pageSize=100&apiKey=c98f2be3bafc441bb170235cba31516b".format((datetime.utcnow() - timedelta(hours=hours_to_refresh)).isoformat())
 
@@ -12,7 +12,7 @@ second_groupAPIs = "https://newsapi.org/v2/everything?sources=national-geographi
 
 ############################ operational code ################################
 
-hosts = [first_groupAPIs, second_groupAPIs]
+hosts = [second_groupAPIs]
 
 db=pymysql.connect(user="root",password="hack@brown",host="35.227.79.121",database="articles")
 c=db.cursor()
@@ -25,7 +25,6 @@ def get_json(api):
     i = response.json()["totalResults"]
     master_list = response.json()
     while i > 100:
-        print(i)
         master_list["articles"] += requests.get(api + "&page={0}".format(x)).json()["articles"]
         i += -100
         x += 1
