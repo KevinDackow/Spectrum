@@ -4,5 +4,9 @@
 }
 
 .title {
-    color: #4f4f4f;
+    width : 30%;
+    background-image: -webkit-linear-gradient(left, blue, red, red); /* For Chrome and Safari */
+    color:transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
 }

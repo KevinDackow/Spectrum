@@ -13,7 +13,7 @@ export default class SearchBar extends Component {
 			<div className="block">
 				<div className="control search-bar">
 					<h1 className="title is-1">
-						News Scale
+						Spectrum
 					</h1>
 					<input
 						className="input"
