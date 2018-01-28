@@ -40,7 +40,7 @@ function sendQuery(topic, leaning, response) {
 
 }
 
-app.get("/helper", function(request, response) {
+app.get("/", function(request, response) {
     response.header("Access-Control-Allow-Origin", "*");
     response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
@@ -51,5 +51,5 @@ app.get("/helper", function(request, response) {
     sendQuery(topic, leaning, response);
 });
 
-app.listen(8080);
+app.listen(8080, "0.0.0.0");
 console.log("i'm up")
