@@ -7,22 +7,21 @@ import './VideoListItem.css';
 const ArticleListItem = ({ video, onVideoSelect }) => {
     const imageUrl = video.urlToImage;
     const title = video.title;
+    const url = video.url;
 
     return (
         <div className="box related-list">
             <article className="media related-card">
                 <div className="media-left">
                     <figure className="image">
-                        <img src={imageUrl} alt="" onClick={() => onVideoSelect(video)} />
+                        <img src={imageUrl} alt=""/>
                     </figure>
                 </div>
                 &nbsp;
                 <div className="media-content">
                     <div className="content">
                         <p>
-							<span onClick={() => onVideoSelect(video)}>
-								{title}
-							</span>
+                            {title}
                         </p>
                     </div>
                 </div>

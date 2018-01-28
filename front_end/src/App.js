@@ -59,7 +59,8 @@ class App extends Component {
     }
 
     callApi = async (term, bias) => {
-		const response = await fetch('http://localhost:8080/helper?topic={0}&leaning={1}', term, bias)
+		var url = "http://localhost:8080/helper/?topic=" + term + "&leaning=" + bias;
+		const response = await fetch(url)
 			.then(response => response.json());
 			// .then(response =>
 			// console.log(response);
@@ -103,26 +104,26 @@ class App extends Component {
 					</div>
 					<div className="rows moderately-left">
 						<h1 id="moderately-left"> MODERATELY LEFT </h1>
-						<VideoList
-							videos={this.state.videos}
+						<ArticleList
+							videos={this.state.modleft}
 						/>
 					</div>
 					<div className="rows political-center">
 						<h1 id="political-center"> CENTER </h1>
-						<VideoList
-							videos={this.state.videos}
+						<ArticleList
+							videos={this.state.center}
 						/>
 					</div>
 					<div className="rows moderately-right">
 						<h1 id="moderately-right"> MODERATELY RIGHT </h1>
-						<VideoList
-							videos={this.state.videos}
+						<ArticleList
+							videos={this.state.modright}
 						/>
 					</div>
 					<div className="rows right">
 						<h1 id="right"> RIGHT </h1>
-						<VideoList
-							videos={this.state.videos}
+						<ArticleList
+							videos={this.state.right}
 						/>
 					</div>
 				</div>

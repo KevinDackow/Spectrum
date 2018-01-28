@@ -18,15 +18,18 @@ var p2 = ") as pos ON pos.sourceName = documents.sourceName WHERE description LI
 var p3 = "%\" LIMIT 10";
 
 function sendQuery(topic, leaning, response) {
-    leaning = 2;
-    topic = "test";
+    // leaning = 2;
+    // topic = "test";
     connection.connect();
+    if(leaning === undefined || topic === undefined){
+        leaning = 3;
+        topic = "trump";
+    }
     connection.query(p1 + leaning.toString() + p2 + topic + p3, function(err, rows, fields) {
         if (!err) {
         //var dct = new Map();
         //dct.set("articles", rows.toString())
         //return dct;
-            console.log({'articles' : rows});
             response.send({'articles' : rows});
             }
         else {
@@ -35,16 +38,17 @@ function sendQuery(topic, leaning, response) {
             }
     });
 
-    console.log("here");
 }
 
 app.get("/helper", function(request, response) {
     response.header("Access-Control-Allow-Origin", "*");
     response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-    var topic = request.params.topic;
-    var leaning = request.params.leaning;
-
+    var topic = request.query.topic;
+    var leaning = request.query.leaning;
+    //console.log(request);
+    console.log(topic);
+    console.log(leaning);
     //response.writeHead(200, {"Content-Type": "application/json"});
     sendQuery(topic, leaning, response);
 });
