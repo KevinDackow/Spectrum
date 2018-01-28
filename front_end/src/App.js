@@ -5,7 +5,9 @@ import SearchBar from './components/SearchBar';
 import VideoList from './components/VideoList';
 import YTSearch from 'youtube-api-search';
 
+
 const REACT_APP_API_KEY = 'AIzaSyANl999ACEi82UvWilvXMclcow8WbikDKY';
+
 
 class App extends Component {
 	constructor(props) {
@@ -20,32 +22,30 @@ class App extends Component {
 			right:[]
 		};
 
-		this.left = new Set(['']);
-		this.modleft = new Set(['']);
-		this.center = new Set(['']);
-        this.modright = new Set(['']);
-        this.right = new Set(['']);
-
 		this.videoSearch('reactjs'); // default search term
 	}
 
     bucketSortVideos(articles, bias) {
-		if (bias == "left") {
+		if (bias === 1) {
 			this.setState({left : articles})
 		}
-        else if (bias == "modleft") {
+        else if (bias === 2) {
             this.setState({modleft : articles})
         }
-        else if (bias == "center") {
+        else if (bias === 3) {
             this.setState({center : articles})
         }
-        else if (bias == "modright") {
+        else if (bias === 4) {
             this.setState({modright : articles})
         }
-        else if (bias == "right") {
+        else if (bias === 5) {
             this.setState({right : articles})
         }
     }
+
+    articleSearch(term) {
+		// multiple searches with sql database at bias 1,2,3,4,5
+	}
 
     // function for search term
 	videoSearch(term) {
@@ -58,6 +58,7 @@ class App extends Component {
                 this.setState({videos: results}); // through states setting the default video
 			}
 		);
+		this.articleSearch(term);
 	}
 
 	render() {
