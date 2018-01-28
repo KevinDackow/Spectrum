@@ -8,7 +8,7 @@ const ArticleListItem = ({ video, onVideoSelect }) => {
     const imageUrl = video.urlToImage;
     const title = video.title;
     const url = video.url;
-    // const source = video.sourceName;
+    const source = video.sourceName;
 
     return (
         <a href={url} target="_blank">
@@ -23,7 +23,7 @@ const ArticleListItem = ({ video, onVideoSelect }) => {
                     <div className="media-content">
                         <div className="content">
                             <p>
-                                {title}
+                                {source} - {title}
                             </p>
                         </div>
                     </div>

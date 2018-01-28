@@ -56,30 +56,22 @@ class App extends Component {
     }
 
     callApi = async (term, bias) => {
-		var url = "http://localhost:8080/helper/?topic=" + term + "&leaning=" + bias;
+        var url = "http://104.196.56.53:8080/?topic=" + term + "&leaning=" + bias;
+		// var url = "http://localhost:8080/helper/?topic=" + term + "&leaning=" + bias;
 		const response = await fetch(url)
 			.then(response => response.json());
-			// .then(response =>
-			// console.log(response);
 		if (response.status >= 300) throw Error('sorry');
-
-		//console.log((response.json()));
 		return response;
     };
 
-    // function for search term
-	videoSearch(term) {
-		this.articleSearch(term);
-	}
-
 	render() {
 		// for consistent ui such that it re-renders after 300ms on search
-		const videoSearch = debounce(term => {
+		const articleSearch = debounce(term => {
 			this.articleSearch(term);
 		}, 300);
 		return (
 			<div className="big-container">
-				<SearchBar onSearchTermChange={videoSearch} />
+				<SearchBar onSearchTermChange={articleSearch} />
 				<div className="scale">
 
 				</div>
