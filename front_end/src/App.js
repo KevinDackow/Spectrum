@@ -79,7 +79,7 @@ class App extends Component {
     }
 
     callApi = async () => {
-        const response = await fetch('/helper' + '?topic=trump&leaning=1');
+        const response = await fetch('https://localhost:8080/helper' + '?topic=trump&leaning=1');
         console.log(response);
         const body = response.json();
         console.log(body);
