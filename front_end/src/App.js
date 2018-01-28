@@ -56,7 +56,7 @@ class App extends Component {
     }
 
     callApi = async (term, bias) => {
-        var url = "http://104.196.56.53:8080/?topic=" + term + "&leaning=" + bias;
+        var url = "https://104.196.56.53:8080/?topic=" + term + "&leaning=" + bias;
 		// var url = "http://localhost:8080/helper/?topic=" + term + "&leaning=" + bias;
 		const response = await fetch(url)
 			.then(response => response.json());
