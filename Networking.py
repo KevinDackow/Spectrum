@@ -25,7 +25,6 @@ def get_json(api):
     i = response.json()["totalResults"]
     master_list = response.json()
     while i > 100:
-        print(i)
         master_list["articles"] += requests.get(api + "&page={0}".format(x)).json()["articles"]
         i += -100
         x += 1
@@ -48,8 +47,6 @@ def sql_send(json_info):
         data = [sanitize(article['author']), sanitize(article['description']), sanitize(article['publishedAt']), sanitize(article['source']['name']), sanitize(article['title']), sanitize(article['url']), sanitize(article['urlToImage'])]
         c.execute(sql, data)
         db.commit()
-    c.close()
-    db.close()
 
 
 # Retrieves all JSON objects from list of news APIs and sends them to firebase
@@ -57,5 +54,6 @@ def sql_send(json_info):
 def main():
     for api in hosts:
         sql_send(get_json(api))
-
+    c.close()
+    db.close()
 main()
