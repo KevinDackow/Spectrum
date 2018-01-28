@@ -59,7 +59,7 @@ class App extends Component {
     }
 
     callApi = async (term, bias) => {
-		const response = await fetch('http://localhost:8080/helper?topic=trump&leaning=1')
+		const response = await fetch('http://localhost:8080/helper?topic={0}&leaning={1}', term, bias)
 			.then(response => response.json());
 			// .then(response =>
 			// console.log(response);
