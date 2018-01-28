@@ -1,8 +1,7 @@
+import _mysql
 import json
-
 import requests
 from datetime import datetime, date, time, timedelta
-
 ################################### API Definitions ############################################
 hours_to_refresh = 4
 
@@ -12,19 +11,19 @@ second_groupAPIs = "https://newsapi.org/v2/everything?sources=national-geographi
 
 
 ############################ operational code ################################
-hosts = [first_groupAPIs, second_groupAPIs]
 
-# initializes firebase
-cred = credentials.Certificate('hack-2018-5b7b359358e7.json')
-firebase_admin.initialize_app(cred)
-db = firestore.client()
+testAPI = "https://newsapi.org/v2/everything?sources=abc-news&apiKey=c98f2be3bafc441bb170235cba31516b"
 
+hosts = [testAPI] #first_groupAPIs, second_groupAPIs]
+
+db=_mysql.connect(user="root",password="hack@brown",host="35.227.79.121",database="articles")
+c=db.cursor()
 # () -> URL (Str)
 # output = a website's JSON
 def get_json(api):
     response = requests.get(api)
     x = 2
-    i = response.json()["totalResults"] 
+    i = response.json()["totalResults"]
     master_list = response.json()
     while i > 100:
         master_list["articles"] += requests.get(api + "&page={0}".format(x)).json()["articles"]
@@ -32,22 +31,16 @@ def get_json(api):
         x += 1
     return master_list
 
-def sql_send(json_info): 
+def sql_send(json_info):
     if not json_info['status'] == 'ok':
         print(json_info)
         return
     #get source -> name from JSON
     source = json_info['articles'][0]["source"]["name"]
     for article in json_info['articles']:
-        i = 0
-        #TODO check with sql
-        for doc in db.collection("raw").where('title', '==', article['title']).get():
-            i += 1
-        if i == 0:
-            #TODO send to SQL
-            doc_ref = db.collection("raw").add(article)
-        else:
-            print("Already in db")
+        c.execute("""INSERT INTO documents (author, description, publishedAt, source_name, title, url, urlToImage) VALUES (%s,%s,%s,%s,%s,%s,%s)""",
+            article['author'], article['description'], article['publishedAt'], article['source']['name'], article['title'], article['url'], article['urlToImage'])
+
 # Retrieves all JSON objects from list of news APIs and sends them to firebase
 # List<String> -> ()
 def main():
