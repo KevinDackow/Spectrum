@@ -2,10 +2,8 @@ import debounce from 'lodash.debounce';
 import React, { Component } from 'react';
 import './App.css';
 import SearchBar from './components/SearchBar';
-import VideoDetail from './components/VideoDetail';
 import VideoList from './components/VideoList';
 import YTSearch from 'youtube-api-search';
-import Footer from './components/Footer';
 
 const REACT_APP_API_KEY = 'AIzaSyANl999ACEi82UvWilvXMclcow8WbikDKY';
 
