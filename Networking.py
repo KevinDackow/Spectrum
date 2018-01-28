@@ -12,12 +12,11 @@ second_groupAPIs = "https://newsapi.org/v2/everything?sources=national-geographi
 
 ############################ operational code ################################
 
-testAPI = "https://newsapi.org/v2/everything?sources=abc-news&apiKey=c98f2be3bafc441bb170235cba31516b"
-
-hosts = [testAPI] #first_groupAPIs, second_groupAPIs]
+hosts = [first_groupAPIs, second_groupAPIs]
 
 db=pymysql.connect(user="root",password="hack@brown",host="35.227.79.121",database="articles")
 c=db.cursor()
+
 # () -> URL (Str)
 # output = a website's JSON
 def get_json(api):
@@ -26,11 +25,17 @@ def get_json(api):
     i = response.json()["totalResults"]
     master_list = response.json()
     while i > 100:
+        print(i)
         master_list["articles"] += requests.get(api + "&page={0}".format(x)).json()["articles"]
         i += -100
         x += 1
     return master_list
 
+def sanitize(stri):
+    if stri is None:
+        return None
+    else:
+        return stri.encode("utf-8")
 
 def sql_send(json_info):
     if not json_info['status'] == 'ok':
@@ -39,9 +44,10 @@ def sql_send(json_info):
     #get source -> name from JSON
     source = json_info['articles'][0]["source"]["name"]
     for article in json_info['articles']:
-        c.execute("""INSERT IGNORE INTO articles.documents (author, description, publishedAt, sourceName, title, url, urlToImage) VALUES (%s,%s,%s,%s,%s,%s,%s)""",
-            article['author'], article['description'], article['publishedAt'], article['source']['name'], article['title'], article['url'], article['urlToImage'])
-    c.commit()
+        sql = """INSERT IGNORE INTO articles.documents (author, description, publishedAt, sourceName, title, url, urlToImage) VALUES (%s,%s,%s,%s,%s,%s,%s)"""
+        data = [sanitize(article['author']), sanitize(article['description']), sanitize(article['publishedAt']), sanitize(article['source']['name']), sanitize(article['title']), sanitize(article['url']), sanitize(article['urlToImage'])]
+        c.execute(sql, data)
+        db.commit()
     c.close()
     db.close()
 
