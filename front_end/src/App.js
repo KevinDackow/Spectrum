@@ -2,13 +2,9 @@ import debounce from 'lodash.debounce';
 import React, { Component } from 'react';
 import './App.css';
 import SearchBar from './components/SearchBar';
-import VideoList from './components/VideoList';
 import ArticleList from './components/ArticleList';
-import YTSearch from 'youtube-api-search';
 import fetch from 'isomorphic-fetch'
 
-
-const REACT_APP_API_KEY = 'AIzaSyANl999ACEi82UvWilvXMclcow8WbikDKY';
 
 class App extends Component {
 	constructor(props) {
@@ -23,7 +19,7 @@ class App extends Component {
 			right:[]
 		};
 
-		this.videoSearch('reactjs'); // default search term
+		this.articleSearch(''); // default search term
 	}
 
     articleSearch(term) {
@@ -37,7 +33,6 @@ class App extends Component {
 	articleSearchHelper(articles, bias) {
         if (bias === 1) {
             this.setState({left : articles.articles});
-			console.log(this.state.left);
         }
         else if (bias === 2) {
             this.setState({modleft : articles.articles})
@@ -54,8 +49,10 @@ class App extends Component {
 	}
 
     async componentDidMount(term, bias) {
-		const response = await this.callApi(term, bias);
-		this.articleSearchHelper(response, bias);
+        if (term !== undefined && bias !== undefined) {
+            const response = await this.callApi(term, bias);
+            this.articleSearchHelper(response, bias);
+        }
     }
 
     callApi = async (term, bias) => {
@@ -72,22 +69,13 @@ class App extends Component {
 
     // function for search term
 	videoSearch(term) {
-		YTSearch(
-			{
-				key: REACT_APP_API_KEY,
-				term: term
-			},
-			results => {
-                this.setState({videos: results}); // through states setting the default video
-			}
-		);
 		this.articleSearch(term);
 	}
 
 	render() {
 		// for consistent ui such that it re-renders after 300ms on search
 		const videoSearch = debounce(term => {
-			this.videoSearch(term);
+			this.articleSearch(term);
 		}, 300);
 		return (
 			<div className="big-container">

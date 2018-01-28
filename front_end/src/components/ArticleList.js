@@ -6,6 +6,21 @@ import './VideoList.css';
 import ArticleListItem from './ArticleListItem';
 
 const ArticleList = props => {
+    if (props.videos.length === 0) {
+        return (
+            <div className="empty box">
+                <article className="media related-card">
+                    <div className="media-content">
+                        <div className="content">
+                            <p>
+                                No Results! Try other keywords
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        )
+    }
     const videoItems = props.videos.map(video => {
         return (
             <ArticleListItem

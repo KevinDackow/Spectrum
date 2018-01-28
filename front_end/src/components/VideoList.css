@@ -2,3 +2,7 @@
     overflow-y: auto;
     max-height: 800px;
 }
+
+.empty-box {
+    width: 284px;
+}
