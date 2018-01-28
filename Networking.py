@@ -12,7 +12,7 @@ second_groupAPIs = "https://newsapi.org/v2/everything?sources=national-geographi
 
 ############################ operational code ################################
 
-hosts = [second_groupAPIs]
+hosts = [first_groupAPIs, second_groupAPIs]
 
 db=pymysql.connect(user="root",password="hack@brown",host="35.227.79.121",database="articles")
 c=db.cursor()
