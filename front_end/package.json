@@ -3,11 +3,11 @@
   "version": "1.1.1",
   "description": "A diverse news source",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "deploy": "gh-pages -d build",
     "gh-pages": "1.0.0",
     "lodash.debounce": "4.0.8",
-    "mysql2": "^1.5.1",
     "predeploy": "npm run build",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

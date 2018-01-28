@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import SearchBar from './components/SearchBar';
 import VideoList from './components/VideoList';
+import ArticleList from './components/ArticleList';
 import YTSearch from 'youtube-api-search';
 import fetch from 'isomorphic-fetch'
 
@@ -25,68 +26,47 @@ class App extends Component {
 		this.videoSearch('reactjs'); // default search term
 	}
 
-    bucketSortVideos(articles, bias) {
-		if (bias === 1) {
-			this.setState({left : articles})
-		}
-        else if (bias === 2) {
-            this.setState({modleft : articles})
-        }
-        else if (bias === 3) {
-            this.setState({center : articles})
-        }
-        else if (bias === 4) {
-            this.setState({modright : articles})
-        }
-        else if (bias === 5) {
-            this.setState({right : articles})
-        }
-    }
-
     articleSearch(term) {
-		// multiple searches with sql database at bias 1,2,3,4,5
-		// left = this.articleSearchHelper(term, 1);
-        // modleft = this.articleSearchHelper(term, 2);
-        // center = this.articleSearchHelper(term, 3);
-        // modright = this.articleSearchHelper(term, 4);
-        // right = this.articleSearchHelper(term, 5);
-        // this.setState({left : left, right : right, modleft : modleft, modright : modright, center : center})
+		this.componentDidMount(term, 1);
+        this.componentDidMount(term, 2);
+        this.componentDidMount(term, 3);
+        this.componentDidMount(term, 4);
+        this.componentDidMount(term, 5);
 	}
 
 	articleSearchHelper(articles, bias) {
-		// keyword is json
         if (bias === 1) {
-            this.setState({left : articles})
+            this.setState({left : articles.articles});
+			console.log(this.state.left);
         }
         else if (bias === 2) {
-            this.setState({modleft : articles})
+            this.setState({modleft : articles.articles})
         }
         else if (bias === 3) {
-            this.setState({center : articles})
+            this.setState({center : articles.articles})
         }
         else if (bias === 4) {
-            this.setState({modright : articles})
+            this.setState({modright : articles.articles})
         }
         else if (bias === 5) {
-            this.setState({right : articles})
+            this.setState({right : articles.articles})
         }
 	}
 
-    componentDidMount() {
-        this.callApi()
-            .then(res => console.log("something"))
-            .catch(err => console.log(err));
+    async componentDidMount(term, bias) {
+		const response = await this.callApi(term, bias);
+		this.articleSearchHelper(response, bias);
     }
 
-    callApi = async () => {
-        const response = await fetch('https://localhost:8080/helper' + '?topic=trump&leaning=1');
-        console.log(response);
-        const body = response.json();
-        console.log(body);
+    callApi = async (term, bias) => {
+		const response = await fetch('http://localhost:8080/helper?topic=trump&leaning=1')
+			.then(response => response.json());
+			// .then(response =>
+			// console.log(response);
+		if (response.status >= 300) throw Error('sorry');
 
-        if (response.status !== 200) throw Error(body.message);
-
-        return body;
+		//console.log((response.json()));
+		return response;
     };
 
     // function for search term
@@ -100,7 +80,6 @@ class App extends Component {
                 this.setState({videos: results}); // through states setting the default video
 			}
 		);
-		this.componentDidMount();
 		this.articleSearch(term);
 	}
 
@@ -118,8 +97,8 @@ class App extends Component {
 				<div className="columns">
 					<div className="rows left">
 						<h1 id="left"> LEFT </h1>
-						<VideoList
-							videos={this.state.videos}
+						<ArticleList
+							videos={this.state.left}
 						/>
 					</div>
 					<div className="rows moderately-left">

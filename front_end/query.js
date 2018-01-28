@@ -17,7 +17,7 @@ INNER JOIN (SELECT * FROM articles.positions WHERE leaning = `;
 var p2 = ") as pos ON pos.sourceName = documents.sourceName WHERE description LIKE \"%";
 var p3 = "%\" LIMIT 10";
 
-function sendQuery(topic, leaning) {
+function sendQuery(topic, leaning, response) {
     leaning = 2;
     topic = "test";
     connection.connect();
@@ -26,12 +26,12 @@ function sendQuery(topic, leaning) {
         //var dct = new Map();
         //dct.set("articles", rows.toString())
         //return dct;
-            console.log(rows);
-            return rows;
+            console.log({'articles' : rows});
+            response.send({'articles' : rows});
             }
         else {
             console.log(err);
-            return null;
+            response.status(500).send("Sorry bud, api is down");
             }
     });
 
@@ -39,11 +39,15 @@ function sendQuery(topic, leaning) {
 }
 
 app.get("/helper", function(request, response) {
+    response.header("Access-Control-Allow-Origin", "*");
+    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
     var topic = request.params.topic;
     var leaning = request.params.leaning;
 
     //response.writeHead(200, {"Content-Type": "application/json"});
-    response.send(sendQuery(topic, leaning));
-})
+    sendQuery(topic, leaning, response);
+});
 
 app.listen(8080);
+console.log("i'm up")
