@@ -4,10 +4,19 @@
     display: block;
     padding: 20px;
     background-color: #ffffff;
+    -webkit-transform: scale(1.00);
+    transition: 0.3s;
+}
+
+.box:hover {
+    -webkit-transform: scale(1.02);
+    transition: 0.25s;
+    background-color: lightgrey;
 }
 
 .related-card {
     display: block;
     font-size: 13px;
     font-weight: 500;
+    color : darkslategrey;
 }

@@ -47,8 +47,6 @@ app.get("/helper", function(request, response) {
     var topic = request.query.topic;
     var leaning = request.query.leaning;
     //console.log(request);
-    console.log(topic);
-    console.log(leaning);
     //response.writeHead(200, {"Content-Type": "application/json"});
     sendQuery(topic, leaning, response);
 });
