@@ -3,18 +3,16 @@ import json
 import requests
 from datetime import datetime, date, time, timedelta
 
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-
 ################################### API Definitions ############################################
-first_groupAPIs = "https://newsapi.org/v2/everything?sources=abc-news,al-jazeera-english,associated-press,bbc-news,bloomberg,breitbart-news,business-insider,cbs-news,cnn,daily-mail,entertainment-weekly,espn,financial-post,financial-times,fortune,fox-news,hacker-news,independent,medical-news-today,msnbc&from={0}&pageSize=100&apiKey=c98f2be3bafc441bb170235cba31516b".format((datetime.utcnow() - timedelta(hours=1)).isoformat())
+hours_to_refresh = 4
 
-second_groupAPIs = "https://newsapi.org/v2/everything?sources=national-geographic,nbc-news,new-york-magazine,new-york-times,politico,reuters,techcrunch,techradar,the-economist,the-guardian-uk,the-huffington-post,the-telegraph,the-verge,-the-wall-street-journal,the-washington-post,usa-today,vice-news,wired&pageSize=100&from={0}&apiKey=c98f2be3bafc441bb170235cba31516b".format((datetime.utcnow() - timedelta(hours=1)).isoformat())
+first_groupAPIs = "https://newsapi.org/v2/everything?sources=abc-news,al-jazeera-english,associated-press,bbc-news,bloomberg,breitbart-news,business-insider,cbs-news,cnn,daily-mail,entertainment-weekly,espn,financial-post,financial-times,fortune,fox-news,hacker-news,independent,medical-news-today,msnbc&from={0}&pageSize=100&apiKey=c98f2be3bafc441bb170235cba31516b".format((datetime.utcnow() - timedelta(hours=hours_to_refresh)).isoformat())
+
+second_groupAPIs = "https://newsapi.org/v2/everything?sources=national-geographic,nbc-news,new-york-magazine,new-york-times,politico,reuters,techcrunch,techradar,the-economist,the-guardian-uk,the-huffington-post,the-telegraph,the-verge,-the-wall-street-journal,the-washington-post,usa-today,vice-news,wired&pageSize=100&from={0}&apiKey=c98f2be3bafc441bb170235cba31516b".format((datetime.utcnow() - timedelta(hours=hourss_to_refresh)).isoformat())
 
 
 ############################ operational code ################################
-hosts = [first_groupAPIs, second_groupAPIs] #, aljazeeraAPI, associatedpressAPI, bbcAPI, bloombergAPI, breitbartAPI, businessinsiderAPI, cbsAPI, cnnAPI, dailymailAPI, entertainmentweeklyAPI, espnAPI, financialpostAPI, financialtimesAPI, fortuneAPI, foxnewsAPI, hackernewsAPI, independentAPI, medicalnewstodayAPI, msnbcAPI, nationalgeographicAPI, nbcAPI, newyorkmagazineAPI, nytimesAPI, politicoAPI, reutersAPI, techcrunchAPI, techradarAPI, economistAPI, guardianAPI, huffpostAPI, telegraphAPI, vergeAPI, wsjAPI, washpostAPI, usatodayAPI, viceAPI, wiredAPI]
+hosts = [first_groupAPIs, second_groupAPIs]
 
 # initializes firebase
 cred = credentials.Certificate('hack-2018-5b7b359358e7.json')
@@ -34,8 +32,7 @@ def get_json(api):
         x += 1
     return master_list
 
-def firebase_send(json_info): 
-    # if it doesn't work, don't do it!
+def sql_send(json_info): 
     if not json_info['status'] == 'ok':
         print(json_info)
         return
@@ -43,9 +40,11 @@ def firebase_send(json_info):
     source = json_info['articles'][0]["source"]["name"]
     for article in json_info['articles']:
         i = 0
+        #TODO check with sql
         for doc in db.collection("raw").where('title', '==', article['title']).get():
             i += 1
         if i == 0:
+            #TODO send to SQL
             doc_ref = db.collection("raw").add(article)
         else:
             print("Already in db")
@@ -53,6 +52,6 @@ def firebase_send(json_info):
 # List<String> -> ()
 def main():
     for api in hosts:
-        firebase_send(get_json(api))
+        sql_send(get_json(api))
 
 main()
