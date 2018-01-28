@@ -42,41 +42,56 @@ class App extends Component {
 		return (
 			<div className="big-container">
 				<SearchBar onSearchTermChange={videoSearch} />
-				<div className="control">
-					<div className="columns is-10">
+				<div className="scale">
+
+				</div>
+				<div className="columns">
+					<div className="rows left">
+						<h1 id="left"> LEFT </h1>
 						<VideoList
 							videos={this.state.videos}
 							onVideoSelect={selectedVideo => {
-								this.setState({ selectedVideo });
-							}}
+                                this.setState({ selectedVideo });
+                            }}
 						/>
+					</div>
+					<div className="rows moderately-left">
+						<h1 id="moderately-left"> MODERATELY LEFT </h1>
 						<VideoList
 							videos={this.state.videos}
 							onVideoSelect={selectedVideo => {
-								this.setState({ selectedVideo });
-							}}
+                                this.setState({ selectedVideo });
+                            }}
 						/>
+					</div>
+					<div className="rows political-center">
+						<h1 id="political-center"> CENTER </h1>
 						<VideoList
 							videos={this.state.videos}
 							onVideoSelect={selectedVideo => {
-								this.setState({ selectedVideo });
-							}}
+                                this.setState({ selectedVideo });
+                            }}
 						/>
+					</div>
+					<div className="rows moderately-right">
+						<h1 id="moderately-right"> MODERATELY RIGHT </h1>
 						<VideoList
 							videos={this.state.videos}
 							onVideoSelect={selectedVideo => {
-								this.setState({ selectedVideo });
-							}}
+                                this.setState({ selectedVideo });
+                            }}
 						/>
+					</div>
+					<div className="rows right">
+						<h1 id="right"> RIGHT </h1>
 						<VideoList
 							videos={this.state.videos}
 							onVideoSelect={selectedVideo => {
-								this.setState({ selectedVideo });
-							}}
+                                this.setState({ selectedVideo });
+                            }}
 						/>
 					</div>
 				</div>
-				<Footer/>
 			</div>
 		);
 	}
