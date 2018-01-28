@@ -38,7 +38,7 @@ def sql_send(json_info):
     #get source -> name from JSON
     source = json_info['articles'][0]["source"]["name"]
     for article in json_info['articles']:
-        c.execute("""INSERT INTO documents (author, description, publishedAt, source_name, title, url, urlToImage) VALUES (%s,%s,%s,%s,%s,%s,%s)""",
+        c.execute("""INSERT INTO documents (author, description, publishedAt, sourceName, title, url, urlToImage) VALUES (%s,%s,%s,%s,%s,%s,%s)""",
             article['author'], article['description'], article['publishedAt'], article['source']['name'], article['title'], article['url'], article['urlToImage'])
 
 # Retrieves all JSON objects from list of news APIs and sends them to firebase
