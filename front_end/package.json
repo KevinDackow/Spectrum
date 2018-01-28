@@ -1,36 +1,37 @@
 {
-	"name": "spectrum",
-	"version": "1.1.1",
-	"description":"A diverse news source",
-	"private": true,
-	"dependencies": {
-		"gh-pages": "1.0.0",
-		"lodash.debounce": "4.0.8",
-		"react": "^15.6.1",
-		"react-dom": "^15.6.1",
-		"react-scripts": "1.0.11",
-		"react-timestamp": "4.2.1",
-		"youtube-api-search": "0.0.5",
-		"predeploy" : "npm run build",
-		"deploy" : "gh-pages -d build"
-	},
-	"scripts": {
-		"predeploy": "npm run build",
-		"deploy": "gh-pages -d build",
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test --env=jsdom",
-		"eject": "react-scripts eject"
-	},
-	"devDependencies": {
-		"eslint-config-prettier": "2.3.0",
-		"eslint-plugin-prettier": "2.2.0",
-		"prettier": "1.5.3"
-	},
-	"homepage": "https://kevindackow.github.io/Spectrum/",
-	"author": "Kevin Dao Josh Matt",
-	"license": "",
-	"bugs": {
-		"url": "Uh Oh"
-	}
+  "name": "spectrum",
+  "version": "1.1.1",
+  "description": "A diverse news source",
+  "private": true,
+  "dependencies": {
+    "deploy": "gh-pages -d build",
+    "gh-pages": "1.0.0",
+    "lodash.debounce": "4.0.8",
+    "mysql2": "^1.5.1",
+    "predeploy": "npm run build",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-scripts": "1.0.11",
+    "react-timestamp": "4.2.1",
+    "youtube-api-search": "0.0.5"
+  },
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "2.3.0",
+    "eslint-plugin-prettier": "2.2.0",
+    "prettier": "1.5.3"
+  },
+  "homepage": "https://kevindackow.github.io/Spectrum/",
+  "author": "Kevin Dao Josh Matt",
+  "license": "",
+  "bugs": {
+    "url": "Uh Oh"
+  }
 }

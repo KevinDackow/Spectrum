@@ -5,9 +5,7 @@ import SearchBar from './components/SearchBar';
 import VideoList from './components/VideoList';
 import YTSearch from 'youtube-api-search';
 
-
 const REACT_APP_API_KEY = 'AIzaSyANl999ACEi82UvWilvXMclcow8WbikDKY';
-
 
 class App extends Component {
 	constructor(props) {
@@ -45,6 +43,7 @@ class App extends Component {
 
     articleSearch(term) {
 		// multiple searches with sql database at bias 1,2,3,4,5
+
 	}
 
     // function for search term
