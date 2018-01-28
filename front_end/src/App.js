@@ -13,21 +13,49 @@ class App extends Component {
 
 		this.state = {
 			videos: [], // holds 5 videos fetched from API
-			selectedVideo: null // selected video is null, default set below ln:28
+			left: [],
+            modleft: [],
+            center: [],
+            modright: [],
+			right:[]
 		};
+
+		this.left = new Set(['']);
+		this.modleft = new Set(['']);
+		this.center = new Set(['']);
+        this.modright = new Set(['']);
+        this.right = new Set(['']);
 
 		this.videoSearch('reactjs'); // default search term
 	}
 
-	// function for search term
+    bucketSortVideos(articles, bias) {
+		if (bias == "left") {
+			this.setState({left : articles})
+		}
+        else if (bias == "modleft") {
+            this.setState({modleft : articles})
+        }
+        else if (bias == "center") {
+            this.setState({center : articles})
+        }
+        else if (bias == "modright") {
+            this.setState({modright : articles})
+        }
+        else if (bias == "right") {
+            this.setState({right : articles})
+        }
+    }
+
+    // function for search term
 	videoSearch(term) {
 		YTSearch(
 			{
 				key: REACT_APP_API_KEY,
 				term: term
 			},
-			videos => {
-				this.setState({ videos: videos, selectedVideo: videos[0] }); // through states setting the default video
+			results => {
+                this.setState({videos: results}); // through states setting the default video
 			}
 		);
 	}
@@ -48,45 +76,30 @@ class App extends Component {
 						<h1 id="left"> LEFT </h1>
 						<VideoList
 							videos={this.state.videos}
-							onVideoSelect={selectedVideo => {
-                                this.setState({ selectedVideo });
-                            }}
 						/>
 					</div>
 					<div className="rows moderately-left">
 						<h1 id="moderately-left"> MODERATELY LEFT </h1>
 						<VideoList
 							videos={this.state.videos}
-							onVideoSelect={selectedVideo => {
-                                this.setState({ selectedVideo });
-                            }}
 						/>
 					</div>
 					<div className="rows political-center">
 						<h1 id="political-center"> CENTER </h1>
 						<VideoList
 							videos={this.state.videos}
-							onVideoSelect={selectedVideo => {
-                                this.setState({ selectedVideo });
-                            }}
 						/>
 					</div>
 					<div className="rows moderately-right">
 						<h1 id="moderately-right"> MODERATELY RIGHT </h1>
 						<VideoList
 							videos={this.state.videos}
-							onVideoSelect={selectedVideo => {
-                                this.setState({ selectedVideo });
-                            }}
 						/>
 					</div>
 					<div className="rows right">
 						<h1 id="right"> RIGHT </h1>
 						<VideoList
 							videos={this.state.videos}
-							onVideoSelect={selectedVideo => {
-                                this.setState({ selectedVideo });
-                            }}
 						/>
 					</div>
 				</div>
